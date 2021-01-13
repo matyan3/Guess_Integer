@@ -52,20 +52,19 @@ def botguess():
     dialog.mainloop()
 
 #method for after user's guess (compares input to the pregenerated number)
-def guess():
+def guess(guessednumber):
     global number
-    global widgetNames
-   # try:
-    if int(guessednum.get()) == number:
-        mb.showinfo("Exactly", "That's the number I was thinking")
-    elif guessednum.get() > number:
-        mb.showinfo("Lower", "My number is lower than " + str(gn.get()))
-    else:
-        mb.showinfo("Bigger", "Oh, I'm thinking of a higher number than " + str(gn.get()))
-   # except ValueError:
-   #     mb.showwarning("Integers only!", "IDC if you entered a float or a string, gimme an integer")
-   # except:
-   #     mb.showerror("Error", "Wild Error appeared (just report to the creator)")
+    try:
+        if int(guessednumber) == number:
+            mb.showinfo("Exactly", "That's the number I was thinking")
+        elif int(guessednumber) > number:
+            mb.showinfo("Lower", "My number is lower than " + str(guessednumber))
+        else:
+            mb.showinfo("Bigger", "Oh, I'm thinking of a higher number than " + str(guessednumber))
+    except ValueError:
+        mb.showwarning("Integers only!", "IDC if you entered a float or a string, gimme an integer")
+    except:
+        mb.showerror("Error", "Wild Error appeared (just report to the creator)")
 
 #when player clicks the give up button
 def giveup():
@@ -80,26 +79,25 @@ def giveup():
 #when player wants to guess
 def startplayer():
     global number
-    global widgetNames
     number = randomize(1, 1000)
     label = Label(tk, text = "Enter a number (integer) below:")
     label.pack()
     guessednum = Entry(tk)
     guessednum.pack()
-    guessbutton = Button(tk, text = "Submit guess", command = guess)
+    guessbutton = Button(tk, text = "Submit guess", command = lambda: guess(guessednum.get()))
     guessbutton.pack()
     giveupbutton = Button(tk, text = "Give up", command = giveup)
     giveupbutton.pack()
-    guessednum.focus_set()
+    guessednum.focus_force()
 
 #what happens after the launch and in case of restart
 def startgame():
     if mb.askyesno("Who's gonna guess?", "Will you be the guesser?"):
         startplayer()
-        tk.mainloop()
     else:
         mb.showinfo("Think of a number", "Think of a number, when you have it, press ok")
         sleep(1)
         botguess()
 
 startgame()
+tk.mainloop()
