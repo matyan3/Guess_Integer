@@ -34,17 +34,21 @@ def celebrate():
 #creates a dialog with the guessed number and three buttons(Lower, Higher and This one) for the user to reply to the guess
 def botguess():
     global lower, higher
-    tk.title("Bot guessed")
-    guessednum = Label(tk, text = str(round((lower+higher)/2)))
-    guessednum.pack()
-    info = Label(tk, text = "My nuber is: ")
-    info.pack()
-    low = Button(tk, text = "Lower", command = toohigh)
-    low.pack()
-    high = Button(tk, text = "Higher", command = toolow)
-    high.pack()
-    exact = Button(tk, text = "This one", command = celebrate)
-    exact.pack()
+    if higher - lower > 2:
+        tk.title("Bot guessed")
+        guessednum = Label(tk, text = str(round((lower+higher)/2)))
+        guessednum.pack()
+        info = Label(tk, text = "My nuber is: ")
+        info.pack()
+        low = Button(tk, text = "Lower", command = toohigh)
+        low.pack()
+        high = Button(tk, text = "Higher", command = toolow)
+        high.pack()
+        exact = Button(tk, text = "This one", command = celebrate)
+        exact.pack()
+    else:
+        mb.showinfo("I won", "It's " + str(round((lower+higher)/2)))
+        celebrate()
 
 #method for after user's guess (compares input to the pregenerated number)
 def guess(guessednumber):
@@ -102,6 +106,9 @@ def startplayer():
 
 #what happens after the launch and in case of restart (clearing the window and setting guesser)
 def startgame():
+    global lower
+    global higher
+    lower, higher = 0, 1000
     for child in tk.winfo_children():
         child.destroy()
     if mb.askyesno("Who's gonna guess?", "Will you be the guesser?"):
