@@ -57,6 +57,11 @@ def guess(guessednumber):
     try:
         if int(guessednumber) == number:
             mb.showinfo("Exactly", "That's the number I was thinking")
+            tk.destroy()
+            if mb.askyesno("Play again?", "Shall we start a new game?"):
+                startgame()
+            else:
+                mb.showinfo("Bye then", "Goodbye, have a nice life")
         elif int(guessednumber) > number:
             mb.showinfo("Lower", "My number is lower than " + str(guessednumber))
         else:
@@ -73,6 +78,7 @@ def giveup():
             startgame()
         else:
             mb.showinfo("Bye then", "Goodbye, loser")
+            tk.destroy()
     else:
         pass
 
@@ -89,6 +95,7 @@ def startplayer():
     giveupbutton = Button(tk, text = "Give up", command = giveup)
     giveupbutton.pack()
     guessednum.focus_force()
+    tk.mainloop()
 
 #what happens after the launch and in case of restart
 def startgame():
@@ -100,4 +107,3 @@ def startgame():
         botguess()
 
 startgame()
-tk.mainloop()
