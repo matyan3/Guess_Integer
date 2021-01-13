@@ -3,6 +3,8 @@ from tkinter import messagebox as mb
 from random import randint as randomize
 from time import sleep
 
+lower, higher = 0, 1000
+
 #method for after user's guess (compares input to the pregenerated number)
 def guess():
     try:
@@ -34,3 +36,28 @@ def botguess():
     exact = Button(dialog, text = "This one", command = celebrate)
     exact.pack()
     dialog.mainloop()
+
+#upon pressing the "Lower" button
+def toohigh():
+    dialog.destroy()
+    global higher, lower
+    higher = round((lower+higher)/2)
+    sleep(1)
+    botguess()
+
+#upon pressing the "Higher" button
+def toolow():
+    dialog.destroy()
+    global higher, lower
+    lower = round((lower+higher)/2)
+    sleep(1)
+    botguess()
+
+#upon pressing the "This one" button
+def celebrate():
+    dialog.destroy()
+    mb.showinfo("I won", "Huh bitch, didn't expect me to win?")
+    if mb.askyesno("Play again?", "Shall we start a new game?"):
+        startgame()
+    else:
+        mb.showinfo("Bye then", "Goodbye, loser")
